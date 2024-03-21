@@ -1,9 +1,9 @@
-# Your Project's Title...
-Your project's description...
+# XWALK Project
+Bamy's XWALK Project
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.hlx.page/
-- Live: https://main--{repo}--{owner}.hlx.live/
+- Preview: https://main--aem-xwalk--abamy.hlx.page/
+- Live: https://main--aem-xwalk--abamy.hlx.live/
 
 ## Installation
 
