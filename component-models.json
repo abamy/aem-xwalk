@@ -234,7 +234,7 @@
   {
     "id": "carouselItem",
     "fields": [
-      {
+       {
         "component": "reference",
         "valueType": "string",
         "name": "image",
@@ -242,18 +242,11 @@
         "multi": false
       },
       {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
-        "value": ""
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "url",
-        "label": "URL",
-        "value": ""
+        "component": "text-area",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
       }
     ]
   }
