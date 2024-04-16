@@ -15,7 +15,8 @@
       "text",
       "image",
       "button",
-      "title"
+      "title",
+      "video"
     ]
   },
   {
@@ -28,26 +29,14 @@
       "hero",
       "cards",
       "columns",
-      "quote"
+      "quote",
+      "video"
     ]
   },
   {
     "id": "cards",
     "components": [
       "card"
-    ]
-  },
-  {
-    "id": "card",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title",
-      "hero",
-      "cards",
-      "columns",
-      "quote"
     ]
   }
 ]
