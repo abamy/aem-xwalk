@@ -232,9 +232,9 @@
     ]
   },
   {
-    "id": "carouselitem",
+    "id": "carouselslide",
     "fields": [
-       {
+      {
         "component": "reference",
         "valueType": "string",
         "name": "image",
@@ -243,10 +243,10 @@
       },
       {
         "component": "text-area",
+        "valueType": "string",
         "name": "text",
-        "value": "",
         "label": "Text",
-        "valueType": "string"
+        "value": " "
       }
     ]
   }
