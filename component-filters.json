@@ -1,9 +1,7 @@
 [
   {
     "id": "main",
-    "components": [
-      "section"
-    ]
+    "components": ["section"]
   },
   {
     "id": "columns",
@@ -11,13 +9,7 @@
   },
   {
     "id": "column",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title",
-      "video"
-    ]
+    "components": ["text", "image", "button", "title", "video"]
   },
   {
     "id": "section",
@@ -37,14 +29,10 @@
   },
   {
     "id": "cards",
-    "components": [
-      "card"
-    ]
+    "components": ["card"]
   },
   {
     "id": "teaser",
-    "components": [
-      "teaser"
-    ]
+    "components": ["teaser"]
   }
 ]

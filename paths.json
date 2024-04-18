@@ -1,5 +1,3 @@
 {
-    "mappings": [
-      "/content/xwalk/:/"
-    ]
-  }
+  "mappings": ["/content/xwalk/:/"]
+}

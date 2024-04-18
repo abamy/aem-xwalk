@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: "https://author-p31104-e170504.adobeaemcloud.com/bin/franklin.delivery/abamy/aem-xwalk/main"
-    type: "markup"
-    suffix: ".html"
+    url: 'https://author-p31104-e170504.adobeaemcloud.com/bin/franklin.delivery/abamy/aem-xwalk/main'
+    type: 'markup'
+    suffix: '.html'
