@@ -1,150 +1,71 @@
-import { fetchPlaceholders } from '../../scripts/aem.js';
+import { generateTeaserDOM } from '../teaser/teaser.js';
 
-function updateActiveSlide(slide) {
-  const block = slide.closest('.carousel');
-  const slideIndex = parseInt(slide.dataset.slideIndex, 10);
-  block.dataset.activeSlide = slideIndex;
-
-  const slides = block.querySelectorAll('.carousel-slide');
-
-  slides.forEach((aSlide, idx) => {
-    aSlide.setAttribute('aria-hidden', idx !== slideIndex);
-    aSlide.querySelectorAll('a').forEach((link) => {
-      if (idx !== slideIndex) {
-        link.setAttribute('tabindex', '-1');
-      } else {
-        link.removeAttribute('tabindex');
-      }
-    });
-  });
-
-  const indicators = block.querySelectorAll('.carousel-slide-indicator');
-  indicators.forEach((indicator, idx) => {
-    if (idx !== slideIndex) {
-      indicator.querySelector('button').removeAttribute('disabled');
-    } else {
-      indicator.querySelector('button').setAttribute('disabled', 'true');
+// callback for touch based scrolling event
+function updateButtons(entries) {
+  entries.forEach((entry) => {
+    // if panel has become > 60% visible
+    if (entry.isIntersecting) {
+      // get the buttons
+      const carouselButtons = entry.target.parentNode.parentNode.querySelector('.button-container');
+      // remove selected state from whatever button has it
+      [...carouselButtons.querySelectorAll(':scope button')].forEach((b) => b.classList.remove('selected'));
+      // add selected state to proper button
+      carouselButtons
+        .querySelector(`:scope button[data-panel='${entry.target.dataset.panel}']`)
+        .classList.add('selected');
     }
   });
 }
 
-function showSlide(block, slideIndex = 0) {
-  const slides = block.querySelectorAll('.carousel-slide');
-  let realSlideIndex = slideIndex < 0 ? slides.length - 1 : slideIndex;
-  if (slideIndex >= slides.length) realSlideIndex = 0;
-  const activeSlide = slides[realSlideIndex];
+// intersection observer for touch based scrolling detection
+const observer = new IntersectionObserver(updateButtons, { threshold: 0.6, rootMargin: '500px 0px' });
 
-  activeSlide.querySelectorAll('a').forEach((link) => link.removeAttribute('tabindex'));
-  block.querySelector('.carousel-slides').scrollTo({
-    top: 0,
-    left: activeSlide.offsetLeft,
-    behavior: 'smooth',
-  });
-}
+export default function decorate(block) {
+  // the panels container
+  const panelContainer = document.createElement('div');
+  panelContainer.classList.add('panel-container');
 
-function bindEvents(block) {
-  const slideIndicators = block.querySelector('.carousel-slide-indicators');
-  if (!slideIndicators) return;
+  // the buttons container
+  const buttonContainer = document.createElement('div');
+  buttonContainer.classList.add('button-container');
 
-  slideIndicators.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', (e) => {
-      const slideIndicator = e.currentTarget.parentElement;
-      showSlide(block, parseInt(slideIndicator.dataset.targetSlide, 10));
-    });
-  });
+  // get all children elements
+  const panels = [...block.children];
 
-  block.querySelector('.slide-prev').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) - 1);
-  });
-  block.querySelector('.slide-next').addEventListener('click', () => {
-    showSlide(block, parseInt(block.dataset.activeSlide, 10) + 1);
-  });
+  // loop through all children blocks
+  [...panels].forEach((panel, i) => {
+    // generate the  panel
+    const [image, classList, ...rest] = panel.children;
+    const classesText = classList.textContent.trim();
+    const classes = (classesText ? classesText.split(',') : []).map((c) => c && c.trim()).filter((c) => !!c);
+    const blockType = [...classes].includes('detailed-teaser') ? 'detailed-teaser' : 'teaser';
+    // check if we have to render teaser or a detailed teaser
+    const teaserDOM = generateTeaserDOM([image, ...rest], classes);
+    panel.textContent = '';
+    panel.classList.add(blockType, 'block');
+    classes.forEach((c) => panel.classList.add(c.trim()));
+    panel.dataset.panel = `panel_${i}`;
+    panel.append(teaserDOM);
+    panelContainer.append(panel);
 
-  const slideObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) updateActiveSlide(entry.target);
-    });
-  }, { threshold: 0.5 });
-  block.querySelectorAll('.carousel-slide').forEach((slide) => {
-    slideObserver.observe(slide);
-  });
-}
+    if (panels.length > 1) {
+      // generate the button
+      const button = document.createElement('button');
+      buttonContainer.append(button);
+      button.title = `Slide ${i + 1}`;
+      button.dataset.panel = `panel_${i}`;
+      if (!i) button.classList.add('selected');
 
-function createSlide(row, slideIndex, carouselId) {
-  const slide = document.createElement('li');
-  slide.dataset.slideIndex = slideIndex;
-  slide.setAttribute('id', `carousel-${carouselId}-slide-${slideIndex}`);
-  slide.classList.add('carousel-slide');
+      observer.observe(panel);
 
-  row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
-    column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
-    slide.append(column);
-  });
-
-  const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
-  if (labeledBy) {
-    slide.setAttribute('aria-labelledby', labeledBy.getAttribute('id'));
-  }
-
-  return slide;
-}
-
-let carouselId = 0;
-export default async function decorate(block) {
-  carouselId += 1;
-  block.setAttribute('id', `carousel-${carouselId}`);
-  const rows = block.querySelectorAll(':scope > div');
-  const isSingleSlide = rows.length < 2;
-
-  const placeholders = await fetchPlaceholders();
-
-  block.setAttribute('role', 'region');
-  block.setAttribute('aria-roledescription', placeholders.carousel || 'Carousel');
-
-  const container = document.createElement('div');
-  container.classList.add('carousel-slides-container');
-
-  const slidesWrapper = document.createElement('ul');
-  slidesWrapper.classList.add('carousel-slides');
-  block.prepend(slidesWrapper);
-
-  let slideIndicators;
-  if (!isSingleSlide) {
-    const slideIndicatorsNav = document.createElement('nav');
-    slideIndicatorsNav.setAttribute('aria-label', placeholders.carouselSlideControls || 'Carousel Slide Controls');
-    slideIndicators = document.createElement('ol');
-    slideIndicators.classList.add('carousel-slide-indicators');
-    slideIndicatorsNav.append(slideIndicators);
-    block.append(slideIndicatorsNav);
-
-    const slideNavButtons = document.createElement('div');
-    slideNavButtons.classList.add('carousel-navigation-buttons');
-    slideNavButtons.innerHTML = `
-      <button type="button" class= "slide-prev" aria-label="${placeholders.previousSlide || 'Previous Slide'}"></button>
-      <button type="button" class="slide-next" aria-label="${placeholders.nextSlide || 'Next Slide'}"></button>
-    `;
-
-    container.append(slideNavButtons);
-  }
-
-  rows.forEach((row, idx) => {
-    const slide = createSlide(row, idx, carouselId);
-    slidesWrapper.append(slide);
-
-    if (slideIndicators) {
-      const indicator = document.createElement('li');
-      indicator.classList.add('carousel-slide-indicator');
-      indicator.dataset.targetSlide = idx;
-      indicator.innerHTML = `<button type="button"><span>${placeholders.showSlide || 'Show Slide'} ${idx + 1} ${placeholders.of || 'of'} ${rows.length}</span></button>`;
-      slideIndicators.append(indicator);
+      // add event listener to button
+      button.addEventListener('click', () => {
+        panelContainer.scrollTo({ top: 0, left: panel.offsetLeft - panel.parentNode.offsetLeft, behavior: 'smooth' });
+      });
     }
-    row.remove();
   });
 
-  container.append(slidesWrapper);
-  block.prepend(container);
-
-  if (!isSingleSlide) {
-    bindEvents(block);
-  }
+  block.textContent = '';
+  block.append(panelContainer);
+  if (buttonContainer.children.length) block.append(buttonContainer);
 }

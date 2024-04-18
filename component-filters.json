@@ -31,6 +31,7 @@
       "columns",
       "quote",
       "video",
+      "teaser",
       "carousel"
     ]
   },
@@ -41,9 +42,9 @@
     ]
   },
   {
-    "id": "carousel",
+    "id": "teaser",
     "components": [
-      "carouselslide"
+      "teaser"
     ]
   }
 ]
