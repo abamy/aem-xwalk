@@ -23,15 +23,14 @@
  */
 function sampleRUM(checkpoint, data = {}) {
   const SESSION_STORAGE_KEY = 'aem-rum';
-  sampleRUM.baseURL =
-    sampleRUM.baseURL || new URL(window.RUM_BASE == null ? 'https://rum.hlx.page' : window.RUM_BASE, window.location);
+  sampleRUM.baseURL = sampleRUM.baseURL
+    || new URL(window.RUM_BASE == null ? 'https://rum.hlx.page' : window.RUM_BASE, window.location);
   sampleRUM.defer = sampleRUM.defer || [];
   const defer = (fnname) => {
     sampleRUM[fnname] = sampleRUM[fnname] || ((...args) => sampleRUM.defer.push({ fnname, args }));
   };
-  sampleRUM.drain =
-    sampleRUM.drain ||
-    ((dfnname, fn) => {
+  sampleRUM.drain = sampleRUM.drain
+    || ((dfnname, fn) => {
       sampleRUM[dfnname] = fn;
       sampleRUM.defer
         .filter(({ fnname }) => dfnname === fnname)
@@ -68,8 +67,9 @@ function sampleRUM(checkpoint, data = {}) {
         ? JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEY))
         : {};
       // eslint-disable-next-line max-len
-      rumSessionStorage.pages =
-        (rumSessionStorage.pages ? rumSessionStorage.pages : 0) + 1 + /* noise */ (Math.floor(Math.random() * 20) - 10);
+      rumSessionStorage.pages = (rumSessionStorage.pages ? rumSessionStorage.pages : 0)
+        + 1
+        /* noise */ + (Math.floor(Math.random() * 20) - 10);
       sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(rumSessionStorage));
       // eslint-disable-next-line object-curly-newline, max-len
       window.hlx.rum = {
@@ -103,16 +103,13 @@ function sampleRUM(checkpoint, data = {}) {
       ];
       const sendPing = (pdata = data) => {
         // eslint-disable-next-line max-len
-        const t = Math.round(window.performance ? window.performance.now() : Date.now() - firstReadTime);
+        const t = Math.round(
+          window.performance ? window.performance.now() : Date.now() - firstReadTime,
+        );
         // eslint-disable-next-line object-curly-newline, max-len, no-use-before-define
         const body = JSON.stringify(
           {
-            weight,
-            id,
-            referer: window.hlx.rum.sanitizeURL(),
-            checkpoint,
-            t,
-            ...data,
+            weight, id, referer: window.hlx.rum.sanitizeURL(), checkpoint, t, ...data,
           },
           knownProperties,
         );
@@ -127,7 +124,10 @@ function sampleRUM(checkpoint, data = {}) {
         lazy: () => {
           // use classic script to avoid CORS issues
           const script = document.createElement('script');
-          script.src = new URL('.rum/@adobe/helix-rum-enhancer@^1/src/index.js', sampleRUM.baseURL).href;
+          script.src = new URL(
+            '.rum/@adobe/helix-rum-enhancer@^1/src/index.js',
+            sampleRUM.baseURL,
+          ).href;
           document.head.appendChild(script);
           return true;
         },
@@ -197,10 +197,10 @@ function init() {
 function toClassName(name) {
   return typeof name === 'string'
     ? name
-        .toLowerCase()
-        .replace(/[^0-9a-z]/gi, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '')
+      .toLowerCase()
+      .replace(/[^0-9a-z]/gi, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
     : '';
 }
 
@@ -309,7 +309,9 @@ async function loadScript(src, attrs) {
  */
 function getMetadata(name, doc = document) {
   const attr = name && name.includes(':') ? 'property' : 'name';
-  const meta = [...doc.head.querySelectorAll(`meta[${attr}="${name}"]`)].map((m) => m.content).join(', ');
+  const meta = [...doc.head.querySelectorAll(`meta[${attr}="${name}"]`)]
+    .map((m) => m.content)
+    .join(', ');
   return meta || '';
 }
 
@@ -376,6 +378,58 @@ function decorateTemplateAndTheme() {
 }
 
 /**
+ * Wrap inline text content of block cells within a <p> tag.
+ * @param {Element} block the block element
+ */
+function wrapTextNodes(block) {
+  const validWrappers = [
+    'P',
+    'PRE',
+    'UL',
+    'OL',
+    'PICTURE',
+    'TABLE',
+    'H1',
+    'H2',
+    'H3',
+    'H4',
+    'H5',
+    'H6',
+  ];
+
+  const wrap = (el) => {
+    const wrapper = document.createElement('p');
+    wrapper.append(...el.childNodes);
+    [...el.attributes]
+      // move the instrumentation from the cell to the new paragraph, also keep the class
+      // in case the content is a buttton and the cell the button-container
+      .filter(({ nodeName }) => nodeName === 'class'
+        || nodeName.startsWith('data-aue')
+        || nodeName.startsWith('data-richtext'))
+      .forEach(({ nodeName, nodeValue }) => {
+        wrapper.setAttribute(nodeName, nodeValue);
+        el.removeAttribute(nodeName);
+      });
+    el.append(wrapper);
+  };
+
+  block.querySelectorAll(':scope > div > div').forEach((blockColumn) => {
+    if (blockColumn.hasChildNodes()) {
+      const hasWrapper = !!blockColumn.firstElementChild
+        && validWrappers.some((tagName) => blockColumn.firstElementChild.tagName === tagName);
+      if (!hasWrapper) {
+        wrap(blockColumn);
+      } else if (
+        blockColumn.firstElementChild.tagName === 'PICTURE'
+        && (blockColumn.children.length > 1 || !!blockColumn.textContent.trim())
+      ) {
+        wrap(blockColumn);
+      }
+    }
+  });
+}
+
+/**
  * Decorates paragraphs containing a single link as buttons.
  * @param {Element} element container element
  */
@@ -391,19 +445,19 @@ function decorateButtons(element) {
           up.classList.add('button-container');
         }
         if (
-          up.childNodes.length === 1 &&
-          up.tagName === 'STRONG' &&
-          twoup.childNodes.length === 1 &&
-          twoup.tagName === 'P'
+          up.childNodes.length === 1
+          && up.tagName === 'STRONG'
+          && twoup.childNodes.length === 1
+          && twoup.tagName === 'P'
         ) {
           a.className = 'button primary';
           twoup.classList.add('button-container');
         }
         if (
-          up.childNodes.length === 1 &&
-          up.tagName === 'EM' &&
-          twoup.childNodes.length === 1 &&
-          twoup.tagName === 'P'
+          up.childNodes.length === 1
+          && up.tagName === 'EM'
+          && twoup.childNodes.length === 1
+          && twoup.tagName === 'P'
         ) {
           a.className = 'button secondary';
           twoup.classList.add('button-container');
@@ -591,7 +645,9 @@ async function loadBlock(block) {
       const decorationComplete = new Promise((resolve) => {
         (async () => {
           try {
-            const mod = await import(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.js`);
+            const mod = await import(
+              `${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.js`
+            );
             if (mod.default) {
               await mod.default(block);
             }
@@ -636,31 +692,11 @@ function decorateBlock(block) {
     block.classList.add('block');
     block.dataset.blockName = shortBlockName;
     block.dataset.blockStatus = 'initialized';
+    wrapTextNodes(block);
     const blockWrapper = block.parentElement;
     blockWrapper.classList.add(`${shortBlockName}-wrapper`);
     const section = block.closest('.section');
     if (section) section.classList.add(`${shortBlockName}-container`);
-    // wrap plain text and non-block elements in a <p> or <pre>
-    block.querySelectorAll(':scope > div > div').forEach((cell) => {
-      const firstChild = cell.firstElementChild;
-      const cellText = cell.textContent.trim();
-      if ((!firstChild && cellText) || (firstChild && !firstChild.tagName.match(/^(P(RE)?|H[1-6]|(U|O)L|TABLE)$/))) {
-        const paragraph = document.createElement('p');
-        [...cell.attributes]
-          // move the instrumentation from the cell to the new paragraph, also keep the class
-          // in case the content is a buttton and the cell the button-container
-          .filter(
-            ({ nodeName }) =>
-              nodeName === 'class' || nodeName.startsWith('data-aue') || nodeName.startsWith('data-richtext'),
-          )
-          .forEach(({ nodeName, nodeValue }) => {
-            paragraph.setAttribute(nodeName, nodeValue);
-            cell.removeAttribute(nodeName);
-          });
-        paragraph.append(...cell.childNodes);
-        cell.replaceChildren(paragraph);
-      }
-    });
     // eslint-disable-next-line no-use-before-define
     decorateButtons(block);
   }
@@ -747,4 +783,5 @@ export {
   toClassName,
   updateSectionsStatus,
   waitForLCP,
+  wrapTextNodes,
 };
