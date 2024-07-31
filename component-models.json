@@ -727,5 +727,15 @@
         "label": "Body"
       }
     ]
-  }
+  },
+  {
+      "id": "fragment",
+      "fields": [
+        {
+          "component": "aem-content",
+          "name": "reference",
+          "label": "Reference"
+        }
+      ]
+    }
 ]

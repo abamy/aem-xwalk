@@ -33,7 +33,8 @@
       "video",
       "teaser",
       "carousel",
-      "tabs"
+      "tabs",
+      "fragment"
     ]
   },
   {
