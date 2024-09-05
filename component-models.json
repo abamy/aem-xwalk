@@ -1,20 +1,32 @@
 [
   {
+    "id": "image",
+    "fields": [
+      {
+        "component": "reference",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "name": "imageAlt",
+        "label": "Alt Text"
+      }
+    ]
+  },
+  {
     "id": "title",
     "fields": [
       {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "jcr:title",
-        "value": "",
-        "label": "Text"
+        "component": "text",
+        "name": "title",
+        "label": "Title"
       },
       {
         "component": "select",
-        "name": "type",
-        "value": "h1",
-        "label": "Type",
-        "valueType": "string",
+        "name": "titleType",
+        "label": "Title Type",
         "options": [
           {
             "name": "h1",
@@ -45,54 +57,27 @@
     ]
   },
   {
-    "id": "image",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "fileReference",
-        "label": "Image",
-        "multi": false
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "alt",
-        "value": "Default alt",
-        "label": "Alt Text"
-      }
-    ]
-  },
-  {
     "id": "button",
     "fields": [
       {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "href",
-        "value": "",
+        "component": "aem-content",
+        "name": "link",
         "label": "Link"
       },
       {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "text",
-        "value": "",
+        "component": "text",
+        "name": "linkText",
         "label": "Text"
       },
       {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "title",
-        "value": "",
+        "component": "text",
+        "name": "linkTitle",
         "label": "Title"
       },
       {
         "component": "select",
-        "name": "type",
-        "value": "",
+        "name": "linkType",
         "label": "Type",
-        "valueType": "string",
         "options": [
           {
             "name": "default",
@@ -111,21 +96,18 @@
     ]
   },
   {
-    "id": "columns",
+    "id": "section",
     "fields": [
       {
-        "component": "text-input",
-        "valueType": "number",
-        "name": "columns",
-        "value": "",
-        "label": "Columns"
-      },
-      {
-        "component": "text-input",
-        "valueType": "number",
-        "name": "rows",
-        "value": "",
-        "label": "Rows"
+        "component": "multiselect",
+        "name": "style",
+        "label": "Style",
+        "options": [
+          {
+            "name": "Highlight",
+            "value": "highlight"
+          }
+        ]
       }
     ]
   },
@@ -140,7 +122,7 @@
         "multi": false
       },
       {
-        "component": "text-area",
+        "component": "richtext",
         "name": "text",
         "value": "",
         "label": "Text",
@@ -149,25 +131,31 @@
     ]
   },
   {
-    "id": "section",
+    "id": "columns",
     "fields": [
       {
-        "component": "text-input",
-        "name": "style",
+        "component": "text",
+        "valueType": "number",
+        "name": "columns",
         "value": "",
-        "label": "Style",
-        "description": "The section style",
-        "valueType": "string",
-        "options": [
-          {
-            "name": "default",
-            "value": "default"
-          },
-          {
-            "name": "highlight",
-            "value": "highlight"
-          }
-        ]
+        "label": "Columns"
+      },
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "rows",
+        "value": "",
+        "label": "Rows"
+      }
+    ]
+  },
+  {
+    "id": "fragment",
+    "fields": [
+      {
+        "component": "aem-content",
+        "name": "reference",
+        "label": "Reference"
       }
     ]
   },
@@ -182,560 +170,19 @@
         "multi": false
       },
       {
-        "component": "text-input",
+        "component": "text",
         "valueType": "string",
         "name": "imageAlt",
         "label": "Alt",
         "value": ""
       },
       {
-        "component": "text-area",
+        "component": "richtext",
         "name": "text",
         "value": "",
         "label": "Text",
         "valueType": "string"
       }
     ]
-  },
-  {
-    "id": "quote",
-    "fields": [
-      {
-        "component": "text-area",
-        "name": "quote",
-        "value": "",
-        "label": "Quote",
-        "valueType": "string"
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "author",
-        "label": "Author",
-        "value": ""
-      }
-    ]
-  },
-  {
-    "id": "video",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
-        "value": ""
-      },
-      {
-        "component": "text-input",
-        "valueType": "string",
-        "name": "url",
-        "label": "URL",
-        "value": ""
-      }
-    ]
-  },
-  {
-    "id": "teaser",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "fileReference",
-        "label": "Image",
-        "description": "The teaser image, min Xpx x Ypx...",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "fileReferenceAlt",
-        "value": "",
-        "label": "Image Description",
-        "description": "A descriptive text of the image will be shown as tooltip."
-      },
-      {
-        "component": "multiselect",
-        "name": "classes",
-        "label": "Style",
-        "valueType": "string",
-        "required": true,
-        "maxSize": 3,
-        "options": [
-          {
-            "name": "Theme",
-            "children": [
-              {
-                "name": "Light",
-                "value": "light"
-              },
-              {
-                "name": "Dark",
-                "value": "dark"
-              }
-            ]
-          },
-          {
-            "name": "Alignment",
-            "children": [
-              {
-                "name": "Left",
-                "value": "left"
-              },
-              {
-                "name": "Right",
-                "value": "right"
-              }
-            ]
-          },
-          {
-            "name": "Background Color",
-            "children": [
-              {
-                "name": "Grey",
-                "value": "bg-spectrum-gray-700"
-              },
-              {
-                "name": "Blue",
-                "value": "bg-spectrum-blue-700"
-              },
-              {
-                "name": "Green",
-                "value": "bg-spectrum-green-700"
-              },
-              {
-                "name": "Orange",
-                "value": "bg-spectrum-orange-700"
-              },
-              {
-                "name": "Red",
-                "value": "bg-spectrum-red-700"
-              },
-              {
-                "name": "Celery",
-                "value": "bg-spectrum-celery-700"
-              },
-              {
-                "name": "Chartreuse",
-                "value": "bg-spectrum-chartreuse-700"
-              },
-              {
-                "name": "Cyan",
-                "value": "bg-spectrum-cyan-700"
-              },
-              {
-                "name": "Fuchsia",
-                "value": "bg-spectrum-fuchsia-700"
-              },
-              {
-                "name": "Indigo",
-                "value": "bg-spectrum-indigo-700"
-              },
-              {
-                "name": "Magenta",
-                "value": "bg-spectrum-magenta-700"
-              },
-              {
-                "name": "Purple",
-                "value": "bg-spectrum-purple-700"
-              },
-              {
-                "name": "Seafoam",
-                "value": "bg-spectrum-seafoam-700"
-              },
-              {
-                "name": "Yellow",
-                "value": "bg-spectrum-yellow-700"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "eyebrow",
-        "value": "",
-        "label": "Eyebrow",
-        "description": "Sets the small pre-title above the title."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "value": "",
-        "label": "Heading",
-        "description": "Sets the main title of the teaser."
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "titleType",
-        "value": "h3",
-        "label": "Heading Type",
-        "options": [
-          {
-            "name": "H1",
-            "value": "h1"
-          },
-          {
-            "name": "H2",
-            "value": "h2"
-          },
-          {
-            "name": "H3",
-            "value": "h3"
-          },
-          {
-            "name": "H4",
-            "value": "h4"
-          },
-          {
-            "name": "H5",
-            "value": "h5"
-          },
-          {
-            "name": "H6",
-            "value": "h6"
-          }
-        ]
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "longDescr",
-        "value": "",
-        "label": "Long Description",
-        "description": "The description shown in Desktop and Tablet view."
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "shortDescr",
-        "value": "",
-        "label": "Short Description",
-        "description": "The description shown in Mobile view. If not set long text is used."
-      },
-      {
-        "component": "select",
-        "name": "cta1Type",
-        "value": "primary",
-        "label": "First CTA Type",
-        "description": "'Primary' will render button filled, 'Secondary' with an outline.",
-        "valueType": "string",
-        "options": [
-          {
-            "name": "Primary",
-            "value": "primary"
-          },
-          {
-            "name": "Secondary",
-            "value": "secondary"
-          }
-        ]
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta1Text",
-        "value": "",
-        "label": "First CTA Text",
-        "description": "Text to be shown inside button."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta1",
-        "value": "",
-        "label": "First CTA Link",
-        "description": "What link to open when clicking the button."
-      },
-      {
-        "component": "select",
-        "name": "cta2Type",
-        "value": "primary",
-        "label": "Second CTA Type",
-        "description": "'Primary' will render button filled, 'Secondary' with an outline.",
-        "valueType": "string",
-        "options": [
-          {
-            "name": "Primary",
-            "value": "primary"
-          },
-          {
-            "name": "Secondary",
-            "value": "secondary"
-          }
-        ]
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta2Text",
-        "value": "",
-        "label": "Second CTA Text",
-        "description": "Text to be shown inside button."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta2",
-        "value": "",
-        "label": "Second CTA Link",
-        "description": "What link to open when clicking the button."
-      }
-    ]
-  },
-  {
-    "id": "detailed-teaser",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "fileReference",
-        "label": "Background Image",
-        "multi": false
-      },
-      {
-        "component": "multiselect",
-        "name": "classes",
-        "label": "Style",
-        "valueType": "string",
-        "required": true,
-        "maxSize": 2,
-        "options": [
-          {
-            "name": "Theme",
-            "children": [
-              {
-                "name": "Light",
-                "value": "light"
-              },
-              {
-                "name": "Dark",
-                "value": "dark"
-              }
-            ]
-          },
-          {
-            "name": "Alignment",
-            "children": [
-              {
-                "name": "Left",
-                "value": "left"
-              },
-              {
-                "name": "Right",
-                "value": "right"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "eyebrow_logo",
-        "label": "Logo Image",
-        "description": "Optional Logo above eyebrow.",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "eyebrow_logoAlt",
-        "value": "",
-        "label": "Logo Image alt text",
-        "description": "A descriptive text of the logo image."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "eyebrow_title",
-        "value": "",
-        "label": "Eyebrow Main Title",
-        "description": "Sets the small Eyebrow above the title."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "eyebrow_subtitle",
-        "value": "",
-        "label": "Eybrow Sub Title",
-        "description": "Second, smaller eyebrow line."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "value": "",
-        "label": "Heading",
-        "description": "Sets the main title of the teaser."
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "titleType",
-        "value": "h3",
-        "label": "Heading Type",
-        "options": [
-          {
-            "name": "H1",
-            "value": "h1"
-          },
-          {
-            "name": "H2",
-            "value": "h2"
-          },
-          {
-            "name": "H3",
-            "value": "h3"
-          },
-          {
-            "name": "H4",
-            "value": "h4"
-          },
-          {
-            "name": "H5",
-            "value": "h5"
-          },
-          {
-            "name": "H6",
-            "value": "h6"
-          }
-        ]
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "description",
-        "value": "",
-        "label": "Teaser Text"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "subject",
-        "label": "Subject Image",
-        "description": "Optional Subject Image.",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "subjectAlt",
-        "value": "",
-        "label": "Subject Alt Text",
-        "description": "A descriptive text of the subject image."
-      },
-      {
-        "component": "select",
-        "name": "cta1Type",
-        "value": "primary",
-        "label": "First CTA Type",
-        "description": "'Primary' will render button filled, 'Secondary' with an outline.",
-        "valueType": "string",
-        "options": [
-          {
-            "name": "Primary",
-            "value": "primary"
-          },
-          {
-            "name": "Secondary",
-            "value": "secondary"
-          }
-        ]
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta1Text",
-        "value": "",
-        "label": "First CTA Text",
-        "description": "Text to be shown inside button."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta1",
-        "value": "",
-        "label": "First CTA Link",
-        "description": "What link to open when clicking the button."
-      },
-      {
-        "component": "select",
-        "name": "cta2Type",
-        "value": "primary",
-        "label": "Second CTA Type",
-        "description": "'Primary' will render button filled, 'Secondary' with an outline.",
-        "valueType": "string",
-        "options": [
-          {
-            "name": "Primary",
-            "value": "primary"
-          },
-          {
-            "name": "Secondary",
-            "value": "secondary"
-          }
-        ]
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta2Text",
-        "value": "",
-        "label": "Second CTA Text",
-        "description": "Text to be shown inside button."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "cta2",
-        "value": "",
-        "label": "Second CTA Link",
-        "description": "What link to open when clicking the button."
-      }
-    ]
-  },
-  {
-    "id": "tabs",
-    "fields": []
-  },
-  {
-    "id": "tab",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "value": "",
-        "label": "Heading"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "content",
-        "value": "",
-        "label": "Body"
-      }
-    ]
-  },
-  {
-      "id": "fragment",
-      "fields": [
-        {
-          "component": "aem-content",
-          "name": "reference",
-          "label": "Reference"
-        }
-      ]
-    }
+  }
 ]

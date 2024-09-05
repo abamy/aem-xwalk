@@ -6,20 +6,6 @@
     ]
   },
   {
-    "id": "columns",
-    "components": []
-  },
-  {
-    "id": "column",
-    "components": [
-      "text",
-      "image",
-      "button",
-      "title",
-      "video"
-    ]
-  },
-  {
     "id": "section",
     "components": [
       "text",
@@ -29,11 +15,6 @@
       "hero",
       "cards",
       "columns",
-      "quote",
-      "video",
-      "teaser",
-      "carousel",
-      "tabs",
       "fragment"
     ]
   },
@@ -44,15 +25,18 @@
     ]
   },
   {
-    "id": "teaser",
+    "id": "columns",
     "components": [
-      "teaser"
+      "column"
     ]
   },
   {
-    "id": "tab",
+    "id": "column",
     "components": [
-      "tab"
+      "text",
+      "image",
+      "button",
+      "title"
     ]
   }
 ]
