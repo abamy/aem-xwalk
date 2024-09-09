@@ -4,8 +4,8 @@ Bamy's XWALK Project
 
 ## Environments
 
-- Preview: https://main--aem-xwalk--abamy.hlx.page/
-- Live: https://main--aem-xwalk--abamy.hlx.live/
+- Preview: https://main--aem-xwalk--abamy.aem.page/
+- Live: https://main--aem-xwalk--abamy.aem.live/
 
 ## Installation
 
