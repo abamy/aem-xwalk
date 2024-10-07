@@ -15,8 +15,13 @@
       "hero",
       "cards",
       "columns",
-      "fragment",
-      "dm-asset"
+      "fragment"
+    ]
+  },
+  {
+    "id": "cards",
+    "components": [
+      "card"
     ]
   },
   {

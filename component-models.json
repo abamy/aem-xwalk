@@ -131,6 +131,25 @@
     ]
   },
   {
+    "id": "card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "columns",
     "fields": [
       {
@@ -186,20 +205,21 @@
     ]
   },
   {
-    "id": "dm-asset",
+    "id": "quote",
     "fields": [
       {
-        "component": "custom-asset-namespace:custom-asset",
-        "name": "image",
-        "label": "Image",
-        "configUrl": "https://main--aem-xwalk--abamy.aem.page/tools/assets-selector/selector-config.json",
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
         "valueType": "string"
       },
       {
         "component": "text",
-        "name": "imageAlt",
-        "label": "Alt Text",
-        "valueType": "string"
+        "valueType": "string",
+        "name": "author",
+        "label": "Author",
+        "value": ""
       }
     ]
   }

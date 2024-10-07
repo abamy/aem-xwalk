@@ -52,13 +52,11 @@ async function customizeButtons(sk) {
   });
   // listen for new buttons and hide them
   new MutationObserver((mutations) => {
-    mutations.forEach((mutation) =>
-      mutation.addedNodes.forEach((node) => {
-        if (shouldHidePlugin(node)) {
-          node.style.display = 'none';
-        }
-      }),
-    );
+    mutations.forEach((mutation) => mutation.addedNodes.forEach((node) => {
+      if (shouldHidePlugin(node)) {
+        node.style.display = 'none';
+      }
+    }));
   }).observe(container, { childList: true });
 
   container.style.visibility = 'visible';
@@ -75,13 +73,9 @@ export async function initSidekick() {
     await customizeButtons(sk);
   } else {
     // wait for sidekick to be loaded
-    document.addEventListener(
-      'sidekick-ready',
-      async () => {
-        sk = document.querySelector('helix-sidekick');
-        await customizeButtons(sk);
-      },
-      { once: true },
-    );
+    document.addEventListener('sidekick-ready', async () => {
+      sk = document.querySelector('helix-sidekick');
+      await customizeButtons(sk);
+    }, { once: true });
   }
 }

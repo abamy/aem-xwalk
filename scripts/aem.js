@@ -18,11 +18,10 @@ function sampleRUM(checkpoint, data) {
     window.hlx = window.hlx || {};
     sampleRUM.enhance = () => {};
     if (!window.hlx.rum) {
-      const weight =
-        (window.SAMPLE_PAGEVIEWS_AT_RATE === 'high' && 10) ||
-        (window.SAMPLE_PAGEVIEWS_AT_RATE === 'low' && 1000) ||
-        (new URLSearchParams(window.location.search).get('rum') === 'on' && 1) ||
-        100;
+      const weight = (window.SAMPLE_PAGEVIEWS_AT_RATE === 'high' && 10)
+        || (window.SAMPLE_PAGEVIEWS_AT_RATE === 'low' && 1000)
+        || (new URLSearchParams(window.location.search).get('rum') === 'on' && 1)
+        || 100;
       const id = Math.random().toString(36).slice(-4);
       const isSelected = Math.random() * weight < 1;
       // eslint-disable-next-line object-curly-newline, max-len
@@ -151,10 +150,10 @@ function init() {
 function toClassName(name) {
   return typeof name === 'string'
     ? name
-        .toLowerCase()
-        .replace(/[^0-9a-z]/gi, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '')
+      .toLowerCase()
+      .replace(/[^0-9a-z]/gi, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
     : '';
 }
 
@@ -343,8 +342,7 @@ function wrapTextNodes(block) {
       // move the instrumentation from the cell to the new paragraph, also keep the class
       // in case the content is a buttton and the cell the button-container
       .filter(
-        ({ nodeName }) =>
-          nodeName === 'class' || nodeName.startsWith('data-aue') || nodeName.startsWith('data-richtext'),
+        ({ nodeName }) => nodeName === 'class' || nodeName.startsWith('data-aue') || nodeName.startsWith('data-richtext'),
       )
       .forEach(({ nodeName, nodeValue }) => {
         wrapper.setAttribute(nodeName, nodeValue);
@@ -355,14 +353,13 @@ function wrapTextNodes(block) {
 
   block.querySelectorAll(':scope > div > div').forEach((blockColumn) => {
     if (blockColumn.hasChildNodes()) {
-      const hasWrapper =
-        !!blockColumn.firstElementChild &&
-        validWrappers.some((tagName) => blockColumn.firstElementChild.tagName === tagName);
+      const hasWrapper = !!blockColumn.firstElementChild
+        && validWrappers.some((tagName) => blockColumn.firstElementChild.tagName === tagName);
       if (!hasWrapper) {
         wrap(blockColumn);
       } else if (
-        blockColumn.firstElementChild.tagName === 'PICTURE' &&
-        (blockColumn.children.length > 1 || !!blockColumn.textContent.trim())
+        blockColumn.firstElementChild.tagName === 'PICTURE'
+        && (blockColumn.children.length > 1 || !!blockColumn.textContent.trim())
       ) {
         wrap(blockColumn);
       }
@@ -386,19 +383,19 @@ function decorateButtons(element) {
           up.classList.add('button-container');
         }
         if (
-          up.childNodes.length === 1 &&
-          up.tagName === 'STRONG' &&
-          twoup.childNodes.length === 1 &&
-          twoup.tagName === 'P'
+          up.childNodes.length === 1
+          && up.tagName === 'STRONG'
+          && twoup.childNodes.length === 1
+          && twoup.tagName === 'P'
         ) {
           a.className = 'button primary';
           twoup.classList.add('button-container');
         }
         if (
-          up.childNodes.length === 1 &&
-          up.tagName === 'EM' &&
-          twoup.childNodes.length === 1 &&
-          twoup.tagName === 'P'
+          up.childNodes.length === 1
+          && up.tagName === 'EM'
+          && twoup.childNodes.length === 1
+          && twoup.tagName === 'P'
         ) {
           a.className = 'button secondary';
           twoup.classList.add('button-container');
