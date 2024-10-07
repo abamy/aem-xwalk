@@ -184,5 +184,23 @@
         "valueType": "string"
       }
     ]
+  },
+  {
+    "id": "dm-asset",
+    "fields": [
+      {
+        "component": "custom-asset-namespace:custom-asset",
+        "name": "image",
+        "label": "Image",
+        "configUrl": "https://main--aem-xwalk--abamy.aem.page/tools/assets-selector/selector-config.json",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "imageAlt",
+        "label": "Alt Text",
+        "valueType": "string"
+      }
+    ]
   }
 ]
