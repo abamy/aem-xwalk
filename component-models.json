@@ -131,7 +131,7 @@
     ]
   },
   {
-    "id": "card",
+    "id": "carouselitem",
     "fields": [
       {
         "component": "reference",
