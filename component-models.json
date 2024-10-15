@@ -131,7 +131,7 @@
     ]
   },
   {
-    "id": "card",
+    "id": "carouselitem",
     "fields": [
       {
         "component": "reference",
@@ -220,6 +220,18 @@
         "name": "author",
         "label": "Author",
         "value": ""
+      }
+    ]
+  },
+  {
+    "id": "tab",
+    "fields": [
+      {
+        "component": "text",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
       }
     ]
   }
