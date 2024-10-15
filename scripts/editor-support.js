@@ -59,9 +59,7 @@ async function applyChanges(event) {
       }
     } else {
       // sections and default content, may be multiple in the case of richtext
-      const newElements = parsedUpdate.querySelectorAll(
-        `[data-aue-resource="${resource}"],[data-richtext-resource="${resource}"]`,
-      );
+      const newElements = parsedUpdate.querySelectorAll(`[data-aue-resource="${resource}"],[data-richtext-resource="${resource}"]`);
       if (newElements.length) {
         const { parentElement } = element;
         if (element.matches('.section')) {
@@ -91,13 +89,18 @@ async function applyChanges(event) {
 }
 
 function attachEventListners(main) {
-  ['aue:content-patch', 'aue:content-update', 'aue:content-add', 'aue:content-move', 'aue:content-remove'].forEach(
-    (eventType) => main?.addEventListener(eventType, async (event) => {
-      event.stopPropagation();
-      const applied = await applyChanges(event);
-      if (!applied) window.location.reload();
-    }),
-  );
+  [
+    'aue:content-patch',
+    'aue:content-update',
+    'aue:content-add',
+    'aue:content-move',
+    'aue:content-remove',
+    'aue:content-copy',
+  ].forEach((eventType) => main?.addEventListener(eventType, async (event) => {
+    event.stopPropagation();
+    const applied = await applyChanges(event);
+    if (!applied) window.location.reload();
+  }));
 }
 
 attachEventListners(document.querySelector('main'));
