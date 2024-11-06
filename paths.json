@@ -3,5 +3,8 @@
     "/content/xwalk/:/",
     "/content/xwalk/configuration:/.helix/config.json",
     "/content/xwalk/metadata:/metadata.json"
+  ],
+  "includes": [
+    "/content/xwalk/"
   ]
 }
